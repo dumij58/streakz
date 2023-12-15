@@ -1,0 +1,27 @@
+[project]
+name = "streakz"
+version = "0.0.1"
+authors = [
+  { name="Dumindu Jayarathne", email="dumij58@gmail.com" },
+]
+description = "A Habit Tracker Web Application"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "flask",
+    "flask-sqlalchemy",
+    "flask-migrate",
+]
+
+[project.urls]
+Homepage = "https://github.com/dumij58/streakz"
+Issues = "https://github.com/dumij58/streakz/issues"
+
+[build-system]
+requires = ["flit_core>=3.4"]
+build-backend = "flit_core.buildapi"

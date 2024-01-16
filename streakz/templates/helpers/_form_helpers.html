@@ -1,0 +1,22 @@
+{% macro floating_field(field, class="") -%}
+<div class="mb-3">
+
+    {% if field.errors %}
+        {% set validated_class = class ~ " is-invalid" %}
+    {% else %}
+        {% set validated_class = class %}
+    {% endif %}
+
+    <div class="form-floating">
+        {{ field(class=validated_class, placeholder=field.name ~ "-placeholder", *varargs, **kwargs) }}
+        {{ field.label }} 
+    </div>
+
+    {% if field.errors %}
+    <div class="errors text-danger">
+        * {{ field.errors[0] }}
+    </div>
+    {% endif %}
+
+</div>
+{%- endmacro %}

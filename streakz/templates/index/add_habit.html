@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    {% block title %}Add Habit{% endblock %}
+{% endblock %}
+
+{% block content %}
+
+{% from 'helpers/_form_helpers.html' import floating_field %}
+<div class="container-fluid">
+    <div class="container p-4 mt-3 bg-body-tertiary rounded" style="max-width: 60rem;">
+        <form method="POST" action="{{ url_for('index.add_habit') }}">
+            {{ form.csrf_token }}
+            {{ floating_field(form.title, class="form-control mt-3", autofocus=true, autocomplete=false, required=False) }}
+            {{ floating_field(form.desc, class="form-control", autocomplete=false) }}
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

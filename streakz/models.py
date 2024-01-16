@@ -1,6 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-#from sqlalchemy import Integer, DateTime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from typing import List
 from datetime import datetime
@@ -14,7 +13,7 @@ migrate = Migrate()
 class Habit(db.Model):
   id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
   title: Mapped[str] = mapped_column(db.String, unique=True, nullable=False)
-  desc: Mapped[str] = mapped_column(db.String)
+  desc: Mapped[str]
   entries: Mapped[List["Entry"]] = relationship(
     back_populates="habit",
     cascade="all, delete-orphan"
@@ -26,7 +25,8 @@ class Habit(db.Model):
 
 class Entry(db.Model):
   id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-  habit: Mapped["Habit"] = relationship(back_populates="entry")
+  habit_id: Mapped[int] = mapped_column(db.Integer, db.ForeignKey('habit.id'), nullable=False)
+  habit: Mapped["Habit"] = relationship(back_populates="entries")
   checked_dt: Mapped[datetime] = mapped_column(db.DateTime, nullable=False)
 
   def __repr__(self) -> str:

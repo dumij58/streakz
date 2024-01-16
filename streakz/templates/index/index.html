@@ -1,22 +1,31 @@
 {% extends 'base.html' %}
 
-{% block title %}Index{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
     <div class="container p-4 mt-3 bg-body-tertiary rounded" style="max-width: 60rem;">
-        <div class="pb-2 px-3 row">
-            <div class="col-4 ms-3"></div>
-            {% for day in days %}
-            <div class="col-1 text-secondary">{{ day }}</div>
-            {% endfor %}
+        <div class="d-grid gap-2 col-6 mx-auto mb-3">
+            <a class="btn btn-primary" href="{{ url_for('index.add_habit') }}">Add Habit</a>
         </div>
-        {% for i in range(5) %}
+        <div class="card mb-3 bg-body-tertiary border border-0">
+            <div class="card-body row">
+                <div class="col-lg-4 col-md-3 col-sm-2 vstack ms-auto"></div>
+                {% for day in days %}
+                <div class="col-1 text-secondary text-center text-wrap me-auto">{{ day }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        {% for habit in habits %}
         <div class="card mb-3">
             <div class="card-body row">
-                <div class="col-lg-4 col-md-3">Habit {{ i + 1 }}</div>
+                <div class="col-lg-4 col-md-3 col-sm-2 vstack ms-auto">
+                    <div class="me-auto">{{ habit.title }}</div>
+                    <div class="text-secondary me-auto">{{ habit.desc | truncate(50) }}</div>
+                </div>
+
                 {% for _ in range(7) %}
-                <div class="col-1 habit-check text-center">
+                <div class="col-1 habit-check text-center me-auto my-auto">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                     </svg>

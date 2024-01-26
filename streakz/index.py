@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, render_template, redirect, request, url_for
+    Blueprint, render_template, redirect, request, url_for, jsonify
 )
 from datetime import date
 from sqlalchemy import select
@@ -29,3 +29,19 @@ def add_habit():
         return redirect(url_for("index.index"))
     
     return render_template("index/add_habit.html", form=addHabitForm)
+
+
+@bp.route('/fetch_habit_check/<int:h_id>/<day>', methods=["GET"])
+def fetch_habit_check(h_id, day):
+    check_date = date.today().replace(day=int(day))
+    entry = db.session.scalar(select(Entry).where(Entry.habit_id==h_id).where(Entry.date==check_date))
+    if entry:
+        print(check_date, entry.date)
+    check = True if entry else False
+
+    response = {
+        "check": check,
+        "status": "success",
+    }
+
+    return jsonify(response)

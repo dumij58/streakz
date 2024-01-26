@@ -1,0 +1,23 @@
+{% macro render_modal(id, title, body, btn_text="Confirm", btn_link="#", btn_type="primary", add_class="") %}
+<div class="modal fade {{ add_class }}" id="{{ id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          {% if title %}
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ title }}</h1>
+          {% endif %}
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {{ body }}
+        </div>
+        {% if btn_link and btn_type and btn_text %}
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close" data-bs-dismiss="modal">Close</button>
+          <button class="btn btn-{{ btn_type }} modal-confirm" data-update-check-url="{{ btn_link }}">{{ btn_text }}</button>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+</div>
+{% endmacro %}

@@ -1,4 +1,27 @@
 document.addEventListener('DOMContentLoaded', function() {
+    
+    fetchHabitChecks();
+
+    habitCheckModals = document.querySelectorAll('.habit-check-modal');
+    habitCheckModals.forEach(modal => {
+        confirmButton = modal.querySelector('.modal-dialog .modal-content .modal-footer .modal-confirm');
+        confirmButton.addEventListener('click', function() {
+            checkUpdateURL = modal.querySelector('.modal-dialog .modal-content .modal-footer .modal-confirm').getAttribute('data-update-check-url');
+            fetch(checkUpdateURL, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                fetchHabitChecks();
+            });
+            modal.querySelector('.modal-dialog .modal-content .modal-footer .modal-close').click();
+        });
+    });
+
+});
+
+
+function fetchHabitChecks() {
     habitChecks = document.querySelectorAll('.habit-check');
     habitChecks.forEach(habitCheck => {
         const fetchURL = habitCheck.getAttribute("data-fetch-url");
@@ -21,6 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     </svg>
                 </div>`;
             }
-        })
+        });
     });
-});
+};

@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from typing import List
-from datetime import date
+from datetime import date as d
 
 class Base(DeclarativeBase):
   pass
@@ -27,7 +27,7 @@ class Entry(db.Model):
   id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
   habit_id: Mapped[int] = mapped_column(db.Integer, db.ForeignKey('habit.id'), nullable=False)
   habit: Mapped["Habit"] = relationship(back_populates="entries")
-  date: Mapped[date] = mapped_column(db.Date, nullable=False)
+  date: Mapped[d] = mapped_column(db.Date, nullable=False)
 
   def __repr__(self) -> str:
     return f"Entry(id={self.id!r}, date={self.date!r} habit={self.habit!r})"

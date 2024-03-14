@@ -19,9 +19,11 @@
         {% for habit in habits %}
         <div class="card mb-3">
             <div class="card-body row">
-                <div class="col-lg-4 col-md-3 col-sm-2 vstack ms-auto">
+                <div class="col-lg-4 col-md-3 col-sm-2 vstack ms-auto my-auto">
                     <div class="me-auto">{{ habit.title }}</div>
+                    {% if habit.desc %}
                     <div class="text-secondary me-auto">{{ habit.desc | truncate(50) }}</div>
+                    {% endif %}
                 </div>
                 
                 {% from 'helpers/_modalhelpers.html' import render_modal %}

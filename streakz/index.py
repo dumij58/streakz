@@ -65,3 +65,7 @@ def update_habit_check(h_id, check_date):
         "msg": "entry deleted!" if entry else "new entry added!",
     }
     return jsonify(response)
+
+@bp.route('/hello')
+def hello():
+    return "<h2>Hello, World!</h2>"

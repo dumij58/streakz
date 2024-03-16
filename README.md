@@ -38,9 +38,9 @@ cd streakz
 pip install -r requirements.txt
 
 # Run flask development server
-flask --app project.py run
+flask --app streakz run
 # if you get an error try another port using
-flask --app project.py run -p $PORT_NUMBER
+flask --app streakz run -p $PORT_NUMBER
 ```
 
 #### When you are done testing

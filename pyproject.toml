@@ -16,6 +16,9 @@ dependencies = [
     "flask",
     "flask-sqlalchemy",
     "flask-migrate",
+    "flask-wtf",
+    "pytest",
+    "coverage",
 ]
 
 [project.urls]

@@ -1,6 +1,6 @@
 [project]
 name = "streakz"
-version = "0.0.1"
+version = "1.0.0"
 authors = [
   { name="Dumindu Jayarathne", email="dumij58@gmail.com" },
 ]

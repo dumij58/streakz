@@ -1,0 +1,33 @@
+.content-block {
+    max-width: 60rem;
+    min-height: calc(100dvh - 90px);
+}
+
+.cal-left-btn {
+    --bs-icon-link-transform: translate3d(.375rem, 0, 0);
+}
+
+.cal-right-btn {
+    --bs-icon-link-transform: translate3d(-.375rem, 0, 0);
+}
+
+.cal-container {
+    max-width: 35rem;
+    min-width: 17rem;
+}
+
+.day-text {
+    min-width: calc(100% / 7);
+}
+
+.icon-curr-streak {
+    --bs-text-opacity: 1;
+    color: rgba(var(--bs-warning-rgb), var(--bs-text-opacity)) !important;
+}
+
+.icon-best-streak {
+    --bs-text-opacity: 1;
+    color: rgba(255, 87, 51, var(--bs-text-opacity)) !important;
+    margin-bottom: 3px;
+}
+

@@ -1,0 +1,29 @@
+{% from 'helpers/_modalhelpers.html' import render_small_modal %}
+<div class="hstack mb-1 text-center">
+{% for d in cal %}
+
+{% if month is equalto d.month %}
+    {% if d in entry_dates %}
+        {% set status = "uncheck" %}
+    {% else %}
+        {% set status = "check" %}
+    {% endif %}
+
+    {{ render_small_modal(
+        "calDayModal-" ~ d, "Do you want to " ~ status ~ " " ~ d ~"?",
+        btn_link=url_for('habit_data.update_habit_day', h_id=habit.id, check_date=d),
+        add_class="habit-cal-day-modal") }}
+{% endif %}
+
+{% if loop.index % 7 == 0 %}
+<button id="calDay-{{ d }}" {% if month is equalto d.month %}data-bs-toggle="modal" data-bs-target="#calDayModal-{{ d }}"{% else %}disabled{% endif %} class="d-none d-sm-block btn mx-auto {% if month != d.month %}text-secondary{% endif %} {% if d in entry_dates %}btn-{% if month != d.month %}outline-{% endif %}primary{% else %}border-dark-subtle{% endif %}">{{ "%(day)02d" % {"day":d.day} }}</button>
+<button id="calDay-{{ d }}" {% if month is equalto d.month %}data-bs-toggle="modal" data-bs-target="#calDayModal-{{ d }}"{% else %}disabled{% endif %} class="d-block d-sm-none btn btn-sm mx-auto {% if month != d.month %}text-secondary{% endif %} {% if d in entry_dates %}btn-{% if month != d.month %}outline-{% endif %}primary{% else %}border-dark-subtle{% endif %}">{{ "%(day)02d" % {"day":d.day} }}</button>
+</div>
+<div class="hstack mb-1 text-center">
+{% else %}
+<button id="calDay-{{ d }}" {% if month is equalto d.month %}data-bs-toggle="modal" data-bs-target="#calDayModal-{{ d }}"{% else %}disabled{% endif %} class="d-none d-sm-block btn mx-auto {% if month != d.month %}text-secondary{% endif %} {% if d in entry_dates %}btn-{% if month != d.month %}outline-{% endif %}primary{% else %}border-dark-subtle{% endif %}">{{ "%(day)02d" % {"day":d.day} }}</button>
+<button id="calDay-{{ d }}" {% if month is equalto d.month %}data-bs-toggle="modal" data-bs-target="#calDayModal-{{ d }}"{% else %}disabled{% endif %} class="d-block d-sm-none btn btn-sm mx-auto {% if month != d.month %}text-secondary{% endif %} {% if d in entry_dates %}btn-{% if month != d.month %}outline-{% endif %}primary{% else %}border-dark-subtle{% endif %}">{{ "%(day)02d" % {"day":d.day} }}</button>
+{% endif %}
+
+{% endfor %}
+</div>

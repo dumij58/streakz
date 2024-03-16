@@ -18,6 +18,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    habits = document.querySelectorAll('.habit-details');
+    habits.forEach(habit => {
+        const habitUrl = habit.getAttribute('data-habit-url');
+        habit.addEventListener('click', function() {
+            window.location.href = habitUrl;
+        });
+    });
 });
 
 

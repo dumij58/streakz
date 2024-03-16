@@ -6,7 +6,7 @@
 
 {% block content %}
 
-{% from 'helpers/_form_helpers.html' import floating_field %}
+{% from 'helpers/_formhelpers.html' import floating_field %}
 <div class="container-fluid">
     <div class="container p-4 mt-3 bg-body-tertiary rounded" style="max-width: 60rem;">
         <form method="POST" action="{{ url_for('index.add_habit') }}">

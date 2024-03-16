@@ -9,7 +9,7 @@
 
     <div class="form-floating">
         {{ field(class=validated_class, placeholder=field.name ~ "-placeholder", *varargs, **kwargs) }}
-        {{ field.label }} 
+        {{ field.label }}
     </div>
 
     {% if field.errors %}

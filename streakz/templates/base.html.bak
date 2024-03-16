@@ -12,7 +12,7 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-expand-md bg-body-secondary">
+        <nav class="navbar navbar-expand-md bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand text-primary" href="{{ url_for('index.index') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
@@ -21,6 +21,19 @@
                     </svg>
                     Streakz
                 </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <!--
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link" href="#">Features</a>
+                        <a class="nav-link" href="#">Pricing</a>
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                        -->
+                    </div>
+                </div>
             </div>
         </nav>
 
@@ -28,14 +41,9 @@
             <div class="fs-3 text-center mt-3">{% block header %}{% endblock %}</div>
         </header>
 
-        <!-- Use flash messages with categories to display different colors of flash messages (using Bootstrap colors [success, danger, info, primary, secondary,...] ) -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-            <div class="flash text-center m-3 p-3 text-{{ category }}-emphasis bg-{{ category }}-subtle border border-{{ category }}-subtle rounded-3">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
+        {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+        {% endfor %}
 
         {% block content %}{% endblock %}
 

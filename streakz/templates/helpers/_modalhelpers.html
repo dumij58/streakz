@@ -21,3 +21,75 @@
     </div>
 </div>
 {% endmacro %}
+
+
+{% macro render_small_modal(id, body="Are you sure?", btn1_text="No", btn2_text="Yes", btn_link="#", btn_type="primary", add_class="") %}
+<div class="modal fade {{ add_class }}" id="{{ id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <div class="mt-3 mb-4">{{ body }}</div>
+          <div class="d-grid">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-secondary modal-close" data-bs-dismiss="modal">{{ btn1_text }}</button>
+              <button class="btn btn-{{ btn_type }} modal-confirm" data-update-day-url="{{ btn_link }}">{{ btn2_text }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endmacro %}
+
+
+{% macro render_form_modal(id, title, body="", btn_text="Submit", btn_link="#", btn_type="primary", add_class="", body_list=[]) %}
+<div class="modal fade {{ add_class }}" id="{{ id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          {% if title %}
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ title }}</h1>
+          {% endif %}
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="{{ btn_link }}">
+            <div class="mb-2">
+              {% if body_list | length > 0 %}
+              {% for item in body_list %}
+                {{ item }}
+              {% endfor %}
+              {% else %}
+              {{ body }}
+              {% endif %}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+{% endmacro %}
+
+
+{% macro render_form_button_modal(id, title, body, btn_text="Submit", btn_link="#", btn_type="primary", add_class="") %}
+<div class="modal fade {{ add_class }}" id="{{ id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          {% if title %}
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ title }}</h1>
+          {% endif %}
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-2">{{ body }}</div>
+          <form method="post" action="{{ btn_link }}">
+            <div class="text-end">
+              <button class="btn btn-{{ btn_type }} modal-form-submit">{{ btn_text }}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+{% endmacro %}

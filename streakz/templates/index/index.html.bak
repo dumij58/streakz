@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="container p-4 my-3 content-block bg-body-secondary rounded">
+    <div class="container p-4 mt-3 bg-body-tertiary rounded" style="max-width: 60rem;">
         <div class="d-grid gap-2 col-6 mx-auto mb-3">
             <a class="btn btn-primary" href="{{ url_for('index.add_habit') }}">Add Habit</a>
         </div>

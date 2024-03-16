@@ -1,11 +1,12 @@
 from flask import (
     Blueprint, render_template, redirect, request, url_for, jsonify
 )
-from datetime import date
+from datetime import date, timedelta
 from sqlalchemy import select
 
 from .models import db, Habit, Entry
 from .forms import AddHabitForm
+from .habit_data import count_current_streak
 
 
 bp = Blueprint('index', __name__, url_prefix='/')
@@ -13,10 +14,13 @@ bp = Blueprint('index', __name__, url_prefix='/')
 
 @bp.route('/')
 def index():
-    d = date.today().day
-    days = [f"{day:0>2d}" for day in range(d, d-7, -1)]
+    today = date.today()
+    weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    one_day = timedelta(days=1)
+    cols = 7
+    dates = [today-(one_day*i) for i in range(cols)]
     habits = db.session.scalars(select(Habit).order_by(Habit.id)).all()
-    return render_template("index/index.html", days=days, habits=habits, datelib=date)
+    return render_template("index/index.html", dates=dates, weekdays=weekdays, habits=habits, cols=cols, today=today)
 
 
 @bp.route('/add', methods=["GET", "POST"])
@@ -32,39 +36,39 @@ def add_habit():
     return render_template("index/add_habit.html", form=addHabitForm)
 
 
-@bp.route('/fetch_habit_check/<int:h_id>/<day>', methods=["GET"])
-def fetch_habit_check(h_id, day):
-    check_date = date.today().replace(day=int(day))
-    entry = db.session.scalar(select(Entry).where(Entry.habit_id==h_id).where(Entry.date==check_date))
+@bp.route('/fetch_habit_check/<int:h_id>/<string:check_date>', methods=["GET"])
+def fetch_habit_check(h_id, check_date):
+    entry = db.session.scalar(select(Entry).where(Entry.habit_id == h_id).where(Entry.date == check_date))
     check = True if entry else False
 
     response = {
         "check": check,
         "status": "success",
     }
-
     return jsonify(response)
 
 
-@bp.route('/update_habit_check/<int:h_id>/<check_date>', methods=["POST"])
+@bp.route('/update_habit_check/<int:h_id>/<string:check_date>', methods=["POST"])
 def update_habit_check(h_id, check_date):
-    entry = db.session.scalar(select(Entry).where(Entry.habit_id==h_id).where(Entry.date==check_date))
-    print(entry)
+    entry = db.session.scalar(select(Entry).where(Entry.habit_id == h_id).where(Entry.date == check_date))
 
     if entry:
         db.session.delete(entry)
-        print(db.session.commit())
-        
     else:
-        new_entry = Entry(habit_id=h_id, date=date.fromisoformat(check_date))
+        new_entry = Entry(habit_id = h_id, date = date.fromisoformat(check_date))
         db.session.add(new_entry)
-        print(db.session.commit())
+
+    curr_streak = count_current_streak(h_id)
+    db.session.commit()
 
     response = {
         "status": "success",
+        "habit_id": h_id,
+        "curr_streak": curr_streak,
         "msg": "entry deleted!" if entry else "new entry added!",
     }
     return jsonify(response)
+
 
 @bp.route('/hello')
 def hello():

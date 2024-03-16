@@ -1,5 +1,7 @@
 import pytest
 
+from datetime import date, timedelta
+
 def test_index(client):
     response = client.get("/")
     assert response.status_code == 200
@@ -36,3 +38,33 @@ def test_add_habit_validate(client, title, desc, message):
     assert len(response.history) == 0
     assert response.request.path != "/"
     assert message in response.data
+
+
+@pytest.mark.parametrize(('test_habit_no', 'check_date', 'check'), (
+    (1, date.today()-timedelta(days=1), True),
+    (1, date.today()-timedelta(days=5), True),
+    (2, date.today(), True),
+    (2, date.today()-timedelta(days=32), True),
+
+    (1, date.today(), False),
+    (2, date.today()-timedelta(days=5), False),
+))
+def test_fetch_habit_check(client, habits, test_habit_no, check_date, check):
+    response = client.get(f"/fetch_habit_check/{habits[test_habit_no-1].id}/{check_date}")
+    assert response.status_code == 200
+    assert response.json["check"] == check
+
+
+@pytest.mark.parametrize(('test_habit_no', 'check_date', 'msg'), (
+   (1, date.today()-timedelta(days=1), "entry deleted!"),
+    (1, date.today()-timedelta(days=5), "entry deleted!"),
+    (2, date.today(), "entry deleted!"),
+    (2, date.today()-timedelta(days=32), "entry deleted!"),
+
+    (1, date.today(), "new entry added!"),
+    (2, date.today()-timedelta(days=5), "new entry added!"),
+))
+def test_update_habit_check(client, habits, test_habit_no, check_date, msg):
+    response = client.post(f"/update_habit_check/{habits[test_habit_no-1].id}/{check_date}")
+    assert response.status_code == 200
+    assert response.json["msg"] == msg

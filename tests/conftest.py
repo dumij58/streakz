@@ -1,5 +1,10 @@
 import os
 import pytest
+from sqlalchemy import insert, select
+from datetime import date, timedelta
+
+from streakz.models import Habit, Entry
+from streakz.models import db, Habit, Entry
 
 
 @pytest.fixture
@@ -16,10 +21,6 @@ def app():
     app = create_app(test_config=test_config)
 
     with app.app_context():
-
-        from streakz.models import db, Habit, Entry
-        from sqlalchemy import insert
-        from datetime import date, timedelta
 
         habits = db.session.scalars(
             insert(Habit).returning(Habit),
@@ -78,3 +79,19 @@ def client(app):
 @pytest.fixture
 def runner(app):
     return app.test_cli_runner()
+
+
+@pytest.fixture
+def habits():
+    return get_habits(h_titles=["Test Habit 1", "Test Habit 2", "Test Habit 3"])
+
+
+def get_habits(**kwargs):
+    if "h_ids" in kwargs:
+        return db.session.scalars(select(Habit).where(Habit.id.in_(kwargs["h_ids"]))).all()
+    elif "h_titles" in kwargs:
+        return db.session.scalars(select(Habit).where(Habit.title.in_(kwargs["h_titles"]))).all()
+
+
+def get_entries(h_ids):
+    return db.session.scalars(select(Entry).where(Entry.habit_id.in_(h_ids))).all()

@@ -19,3 +19,14 @@ class AddHabitForm(FlaskForm):
         ])
     desc = StringField('Description', validators=[Optional()])
     submit = SubmitField('Add')
+
+
+class EditHabitForm(FlaskForm):
+    title = StringField('Title', validators=[
+        Optional(),
+        check_habit,
+        ])
+    desc = StringField('Description', validators=[
+        Optional(),
+        ])
+    submit = SubmitField('Save')
